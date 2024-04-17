@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride-Sharing System</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ride-Sharing System</h1>
+        <form action="{% url 'ride_sharing_interface' %}" method="POST" id="rideForm">
+            {% csrf_token %}
+            <label for="start">Starting Location:</label>
+            <input type="text" id="start" name="start" placeholder="Enter starting location" required>
+            <label for="end">Destination:</label>
+            <input type="text" id="end" name="end" placeholder="Enter destination" required>
+            <button type="submit">Request Ride</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // JavaScript code
+        const resultElement = document.getElementById('result');
+        const rideForm = document.getElementById('rideForm');
+
+        // Handle the form submission
+        rideForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Get the form data
+            const formData = new FormData(rideForm);
+            const start = formData.get('start');
+            const end = formData.get('end');
+
+            // Send a POST request to the server with the form data
+            const response = await fetch('{% url "request_ride" %}', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Handle the response
+            const data = await response.json();
+            resultElement.innerHTML = data.message;
+        });
+    </script>
+</body>
+</html>
