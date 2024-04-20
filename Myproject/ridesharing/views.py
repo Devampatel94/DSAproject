@@ -12,7 +12,7 @@ def request_ride(request):
         # Parse POST data
         start = int(request.POST.get('start'))
         end = int(request.POST.get('end'))
-
+        print(start,"ouput for start")
         # Initialize graph and edges
         nodes = initializeGraph()
         edges = []
@@ -25,12 +25,17 @@ def request_ride(request):
 
         # Calculate shortest path and fare
         shortest_path = AStar(nodes, edges, start, end)
+        print(shortest_path,"this is the short")
         if shortest_path:
             distance = sum(edge.weight for edge in edges if edge.source in shortest_path and edge.destination in shortest_path)
             fare = calculateFare(distance)
             result = f"Shortest path from node {start} to node {end}: {' <- '.join(map(str, shortest_path))}. Estimated fare for the ride: ${fare:.2f}"
+            print(distance)
+            print(fare)
+            print(result)
         else:
             result = f"No path found between nodes {start} and {end}"
+            print(result)
 
         # Return the result as a plain HTTP response
         return HttpResponse(result)
@@ -38,4 +43,5 @@ def home(request):
     return render(request, 'interface.html')
 
 def ride_sharing_interface(request):
+    
     return render(request, 'interface.html')
