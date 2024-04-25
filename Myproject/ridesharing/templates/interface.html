@@ -7,45 +7,71 @@
     <style>
         /* CSS styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: #f3f6f8; /* Changed background color */
+            color: #333;
         }
         .container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
-        h1, h2 {
+        h1 {
             text-align: center;
+            margin-bottom: 20px;
+            color: #007bff; /* Changed heading color */
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: #555;
         }
         input[type="text"] {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
         }
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #007bff;
+            padding: 12px;
+            background-color: #4CAF50; /* Changed button color */
             color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #45a049; /* Darker button color on hover */
+        }
+        .output-box {
+            position: relative;
+            margin-top: 20px;
+        }
+        .output-box input[type="text"] {
+            background-color: #f0f0f0;
+            color: #555;
+            font-style: italic;
+        }
+        #result {
+            margin-top: 20px;
+            color: #007bff;
+            font-size: 18px;
+            text-align: center;
         }
     </style>
 </head>
@@ -58,6 +84,14 @@
             <input type="text" id="start" name="start" placeholder="Enter starting location" required>
             <label for="end">Destination:</label>
             <input type="text" id="end" name="end" placeholder="Enter destination" required>
+            <div class="output-box">
+                <label for="shortestPath">Shortest Path:</label>
+                <input type="text" id="shortestPath" name="shortestPath" placeholder="This is Shortest Path" readonly>
+            </div>
+            <div class="output-box">
+                <label for="fare">Estimated Fare:</label>
+                <input type="text" id="fare" name="fare" placeholder="Here will be estimated fare" readonly>
+            </div>
             <button type="submit">Request Ride</button>
         </form>
         <div id="result"></div>
@@ -86,6 +120,12 @@
             // Handle the response
             const data = await response.json();
             resultElement.innerHTML = data.message;
+
+            // Update the Shortest Path input
+            document.getElementById('shortestPath').value = data.shortestPath;
+
+            // Update the fare input
+            document.getElementById('fare').value = data.fare;
         });
     </script>
 </body>
