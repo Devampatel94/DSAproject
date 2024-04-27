@@ -7,24 +7,28 @@
     <style>
         /* CSS styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f3f6f8; /* Changed background color */
+            background-color: #f3f6f8;
             color: #333;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
         }
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            color: #007bff; /* Changed heading color */
+            color: #007bff;
         }
         label {
             display: block;
@@ -47,7 +51,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background-color: #4CAF50; /* Changed button color */
+            background-color: #4CAF50;
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -56,7 +60,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #45a049; /* Darker button color on hover */
+            background-color: #45a049;
         }
         .output-box {
             position: relative;
@@ -66,6 +70,16 @@
             background-color: #f0f0f0;
             color: #555;
             font-style: italic;
+            width: 100%; /* Set width to 100% to occupy the entire space */
+            max-width: 400px; /* Set maximum width to limit the breadth */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            height: 100px; /* Set the height of the box */
+            overflow-y: auto; /* Add vertical scrollbar if content exceeds the height */
         }
         #result {
             margin-top: 20px;
@@ -73,30 +87,115 @@
             font-size: 18px;
             text-align: center;
         }
+        table {
+            border-collapse: collapse;
+            width: 40%;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            float: right;
+            font-size: 14px;
+            color: #333;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .location-number {
+            font-weight: bold;
+            padding-right: 10px;
+            color: #007bff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Alternate row color */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Ride-Sharing System</h1>
-        <form action="{% url 'ride_sharing_interface' %}" method="POST" id="rideForm">
-            {% csrf_token %}
-            <label for="start">Starting Location:</label>
-            <input type="text" id="start" name="start" placeholder="Enter starting location" required>
-            <label for="end">Destination:</label>
-            <input type="text" id="end" name="end" placeholder="Enter destination" required>
-            <div class="output-box">
-                <label for="shortestPath">Shortest Path:</label>
-                <input type="text" id="shortestPath" name="shortestPath" placeholder="This is Shortest Path" readonly>
-            </div>
-            <div class="output-box">
-                <label for="fare">Estimated Fare:</label>
-                <input type="text" id="fare" name="fare" placeholder="Here will be estimated fare" readonly>
-            </div>
-            <button type="submit">Request Ride</button>
-        </form>
-        <div id="result"></div>
+        <div>
+            <h1>Ride-Sharing System</h1>
+            <form action="{% url 'ride_sharing_interface' %}" method="POST" id="rideForm">
+                {% csrf_token %}
+                <label for="start">Starting Location:</label>
+                <input type="text" id="start" name="start" placeholder="Enter starting location" required>
+                <label for="end">Destination:</label>
+                <input type="text" id="end" name="end" placeholder="Enter destination" required>
+                <div class="output-box">
+                    <label for="shortestPath">Shortest Path:</label>
+                    <input type="text" id="shortestPath" name="shortestPath" placeholder="This is Shortest Path" readonly>
+                </div>
+                <div class="output-box">
+                    <label for="fare">Estimated Fare:</label>
+                    <input type="text" id="fare" name="fare" placeholder="Here will be estimated fare" readonly>
+                </div>
+                <!-- New output box for Acceptance / Rejection -->
+                <div class="output-box">
+                    <label for="driverDecision">Acceptance / Rejection:</label>
+                    <input type="text" id="driverDecision" name="driverDecision" placeholder="Driver's decision" >
+                </div>
+                <button type="submit">Request Ride</button>
+            </form>
+            <div id="result"></div>
+        </div>
+        
+        <!-- Table for Locations -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Available Locations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <table>
+                    <tr><td><span class="location-number">1.</span>Bus Stand 🚌</td></tr>
+                    <tr><td><span class="location-number">2.</span>Knowledge Tree 🌳 </td></tr>
+                    <tr><td><span class="location-number">3.</span>Office Buildings  🏢</td></tr>
+                    <tr><td><span class="location-number">4.</span>Shamiyana 🧑‍🍳🍽</td></tr>
+                    <tr><td><span class="location-number">5.</span>Profs Apartment 🌆 </td></tr>
+                    <tr><td><span class="location-number">6.</span>Jodhpur Club </td></tr>
+                    <tr><td><span class="location-number">7.</span>Sports Complex 🏀🏏</td></tr>
+                    <tr><td><span class="location-number">8.</span>Temple 🛕</td></tr>
+                    <tr><td><span class="location-number">9.</span>Chemical/Material Department ⚗</td></tr>
+                    <tr><td><span class="location-number">10.</span>Basics Lab</td></tr>
+                    <tr><td><span class="location-number">11.</span>CSE Department 💻</td></tr>
+                    <tr><td><span class="location-number">12.</span>Bio Department 👩🏻‍🔬🧬</td></tr>
+                    <tr><td><span class="location-number">13.</span>Chemistry Department 🧪</td></tr>
+                    <tr><td><span class="location-number">14.</span>Mechanical Department ⚙👨‍🔧</td></tr>
+                    <tr><td><span class="location-number">15.</span>Civil Department 🏗👷🏻‍♂</td></tr>
+                    <tr><td><span class="location-number">16.</span>Electrical Department 💡🔌🪫⚡</td></tr>
+                    <tr><td><span class="location-number">17.</span>Phy Department </td></tr>
+                    <tr><td><span class="location-number">18.</span>LHB 🎓 </td></tr>
+                    <tr><td><span class="location-number">19.</span>SME Department 📈🕵🏻</td></tr>
+                    <tr><td><span class="location-number">20.</span>Maths Department 📚</td></tr>
+                    <tr><td><span class="location-number">21.</span>Snacks Shop 1</td></tr>
+                    <tr><td><span class="location-number">22.</span>Snacks Shop 2</td></tr>
+                    <tr><td><span class="location-number">23.</span>AIDE </td></tr>
+                    <tr><td><span class="location-number">24.</span>Main Gate</td></tr>
+                    <tr><td><span class="location-number">25.</span>NIFT Gate</td></tr>
+                    <tr><td><span class="location-number">26.</span>Y4</td></tr>
+                    <tr><td><span class="location-number">27.</span>Y3</td></tr>
+                    <tr><td><span class="location-number">28.</span>B1</td></tr>
+                    <tr><td><span class="location-number">29.</span>B2</td></tr>
+                    <tr><td><span class="location-number">30.</span>B5</td></tr>
+                    <tr><td><span class="location-number">31.</span>I2</td></tr>
+                    <tr><td><span class="location-number">32.</span>I3</td></tr>
+                    <tr><td><span class="location-number">33.</span>New Mess</td></tr>
+                    <tr><td><span class="location-number">34.</span>Old Mess</td></tr>
+                    <tr><td><span class="location-number">35.</span>Laundry</td></tr>
+                    <tr><td><span class="location-number">36.</span>Kendriya Bhandar</td></tr>
+                    <tr><td><span class="location-number">37.</span>Tinkering Lab</td></tr>
+                    <tr><td><span class="location-number">38.</span>Barber Shop</td></tr>
+                    <tr><td><span class="location-number">39.</span>Stationery</td></tr>
+                    <tr><td><span class="location-number">40.</span>Library</td></tr>
+                </table>
+            </tbody>
+        </table>
     </div>
-
     <script>
         // JavaScript code
         const resultElement = document.getElementById('result');

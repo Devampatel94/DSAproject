@@ -19,9 +19,8 @@ from django.views.generic import RedirectView
 from ridesharing import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('', RedirectView.as_view(url='ride-sharing/', permanent=False)),
     path('ride-sharing/', views.ride_sharing_interface, name='ride_sharing_interface'),
     path('request-ride/', views.request_ride, name='request_ride'),
+    path('', RedirectView.as_view(url='ride-sharing/', permanent=False)),
 ]
 
